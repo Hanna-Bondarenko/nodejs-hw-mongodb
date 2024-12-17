@@ -16,16 +16,15 @@ const contactsSchema = new Schema(
     isFavourite: {
       type: Boolean,
       default: false,
-      required: true,
     },
     contactType: {
       type: String,
-      enam: ['personal', 'home', 'work'],
+      enum: ['personal', 'home', 'work'],
       default: 'personal',
-      required: true,
     },
   },
   {
+    versionKey: false,
     timestamps: true,
   },
 );
