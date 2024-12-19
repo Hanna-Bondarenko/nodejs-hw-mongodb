@@ -1,55 +1,29 @@
+import * as contactServices from '../services/contacts-service.js';
 import createError from 'http-errors';
-import * as contactsServices from '../services/contacts-service.js';
 
-export const getAllContacts = async (req, res) => {
-  const contacts = await contactsServices.getAll();
+export const getContactsController = async (req, res) => {
+  const data = await contactServices.getContacts();
   res.json({
     status: 200,
-    message: 'Successfully found contacts!',
-    data: contacts,
+    message: 'Successfully found contacts',
+    data,
   });
 };
 
 export const getContactById = async (req, res) => {
-  const { contactId } = req.params;
-  const contact = await contactsServices.getById(contactId);
-  if (!contact) {
-    throw createError(404, 'Contact not found');
+  const { id } = req.params;
+  const data = await contactServices.getContactById(id);
+
+  if (!data) {
+    throw createError(404, `Contact with id=${id} not found`);
+    // const error = new Error(`Contact with id=${id} not found`);
+    // error.status = 404;
+    // throw error;
   }
+
   res.json({
     status: 200,
-    message: `Successfully found contact with id=${contactId}`,
-    data: contact,
+    message: `Successesfullt find Contact with id=${id}`,
+    data,
   });
-};
-
-export const createContact = async (req, res) => {
-  const newContact = await contactsServices.create(req.body);
-  res.status(201).json({
-    status: 201,
-    message: 'Successfully created a contact!',
-    data: newContact,
-  });
-};
-
-export const updateContact = async (req, res) => {
-  const { contactId } = req.params;
-  const updatedContact = await contactsServices.update(contactId, req.body);
-  if (!updatedContact) {
-    throw createError(404, 'Contact not found');
-  }
-  res.json({
-    status: 200,
-    message: 'Successfully updated a contact!',
-    data: updatedContact,
-  });
-};
-
-export const deleteContact = async (req, res) => {
-  const { contactId } = req.params;
-  const deletedContact = await contactsServices.deleteOne(contactId);
-  if (!deletedContact) {
-    throw createError(404, 'Contact not found');
-  }
-  res.status(204).send();
 };
