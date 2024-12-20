@@ -10,9 +10,9 @@ export const getContactsController = async (req, res) => {
   });
 };
 
-export const getContactById = async (req, res) => {
+export const getContactByIdController = async (req, res) => {
   const { id } = req.params;
-  const data = await contactServices.getContactById(id);
+  const data = await contactServices.getContactByIdController(id);
 
   if (!data) {
     throw createError(404, `Contact with id=${id} not found`);
@@ -24,6 +24,31 @@ export const getContactById = async (req, res) => {
   res.json({
     status: 200,
     message: `Successesfullt find Contact with id=${id}`,
+    data,
+  });
+};
+
+export const addContactController = async (req, res) => {
+  const data = await contactServices.addContact(req.body);
+
+  res.status(201).json({
+    status: 201,
+    message: 'Successesfully add contact',
+    data,
+  });
+};
+
+export const upsertContactController = async (req, res) => {
+  const { id } = req.params;
+  const { isNew, data } = await contactServices.updateContact(id, req.body, {
+    upsert: true,
+  });
+
+  const status = isNew ? 201 : 200;
+
+  res.status(status).json({
+    status,
+    message: 'Successesfully upsert contact',
     data,
   });
 };

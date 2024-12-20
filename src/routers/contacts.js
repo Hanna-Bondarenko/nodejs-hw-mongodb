@@ -6,6 +6,13 @@ const contactsRouter = Router();
 
 contactsRouter.get('/', ctrlWrapper(contactsController.getContactsController));
 
-contactsRouter.get('/:id', contactsController.getContactById);
+contactsRouter.get('/:id', contactsController.getContactByIdController);
+
+contactsRouter.post('/', ctrlWrapper(contactsController.addContactController));
+
+contactsRouter.put(
+  '/:id',
+  ctrlWrapper(contactsController.upsertContactController),
+);
 
 export default contactsRouter;
