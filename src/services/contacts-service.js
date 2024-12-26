@@ -1,4 +1,4 @@
-import { ContactsCollection } from '../db/models/contacts.js';
+import { ContactsCollection } from '../db/models/Contacts.js';
 
 export const getContacts = () => ContactsCollection.find();
 
@@ -9,8 +9,9 @@ export const addContact = (payload) => ContactsCollection.create(payload);
 export const updateContact = async (_id, payload, options = {}) => {
   const { upsert } = options;
   const result = await ContactsCollection.findOneAndUpdate({ _id }, payload, {
-    new: true,
+    // new: true,
     upsert,
+    // runValidators: true,
     includeResultMetadata: true,
   });
 
