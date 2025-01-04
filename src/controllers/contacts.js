@@ -56,21 +56,21 @@ export const addContactController = async (req, res) => {
 };
 
 export const upsertContactController = async (req, res) => {
-  const { id: _id } = req.params;
-  const { _id: userId } = req.user;
+  const { id: _id } = req.params; // ID контакта з параметрів запиту
+  const { _id: userId } = req.user; // ID користувача з авторизації
+
+  // Використовуємо { _id, userId } для пошуку контакта
   const { isNew, data } = await contactServices.updateContact(
-    _id,
-    { ...req.body, userId },
-    {
-      upsert: true,
-    },
+    { _id, userId },
+    { ...req.body, userId }, // Додаємо userId до тіла оновлення
+    { upsert: true },
   );
 
   const status = isNew ? 201 : 200;
 
   res.status(status).json({
     status,
-    message: 'Successesfully upsert contact',
+    message: 'Successfully upsert contact',
     data,
   });
 };
