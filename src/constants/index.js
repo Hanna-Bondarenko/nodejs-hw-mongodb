@@ -1,12 +1,15 @@
 import 'dotenv/config';
+import path from 'node:path';
+
+export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
 
 export const SMTP = {
-  SMTP_HOST: process.env.SMTP_HOST,
-  SMTP_PORT: Number(process.env.SMTP_PORT),
-  SMTP_USER: process.env.SMTP_USER,
-  SMTP_PASSWORD: process.env.SMTP_PASSWORD,
-  SMTP_FROM: process.env.SMTP_FROM,
+  SMTP_HOST: 'SMTP_HOST',
+  SMTP_PORT: 'SMTP_PORT',
+  SMTP_USER: 'SMTP_USER',
+  SMTP_PASSWORD: 'SMTP_PASSWORD',
+  SMTP_FROM: 'SMTP_FROM',
 };
 
-export const APP_DOMAIN = process.env.APP_DOMAIN;
-export const JWT_SECRET = process.env.JWT_SECRET;
+export const APP_DOMAIN = 'APP_DOMAIN';
+export const JWT_SECRET = 'JWT_SECRET';
