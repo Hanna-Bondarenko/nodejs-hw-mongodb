@@ -96,6 +96,7 @@ export const requestResetToken = async (email) => {
   if (!user) {
     throw createHttpError(404, 'User not found');
   }
+
   const resetToken = jwt.sign(
     {
       sub: user._id,
@@ -122,14 +123,21 @@ export const requestResetToken = async (email) => {
     link: `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
 
-  await sendEmail({
-    from: getEnvVar(SMTP.SMTP_FROM),
-    to: email,
-    subject: 'Reset your password',
-    html,
-  });
+  try {
+    await sendEmail({
+      from: getEnvVar(SMTP.SMTP_FROM),
+      to: email,
+      subject: 'Reset your password',
+      html,
+    });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    throw createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 };
-
 export const resetPassword = async (payload) => {
   let entries;
 
