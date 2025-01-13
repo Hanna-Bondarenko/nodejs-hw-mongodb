@@ -63,7 +63,7 @@ export const addContactController = async (req, res) => {
   const { _id: userId } = req.user;
   const data = await contactServices.addContact({
     ...req.body,
-    photoUrl,
+    photo: photoUrl,
     userId,
   });
 
