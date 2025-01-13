@@ -5,6 +5,8 @@ import { parseSortParams } from '../utils/parseSortParams.js';
 import { parseContactFilterParams } from '../utils/filters/parseContactFilterParams.js';
 import { sortByList } from '../db/models/contacts.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+import { getEnvVar } from '../utils/getEnvVar.js';
 
 export const getContactsController = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -45,20 +47,24 @@ export const getContactByIdController = async (req, res) => {
 };
 
 export const addContactController = async (req, res) => {
-  const { _id: userId } = req.user;
   const photo = req.file; // Отримуємо файл із запиту
 
   let photoUrl;
 
   // Якщо є файл, зберігаємо його та отримуємо URL
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
+  const { _id: userId } = req.user;
   const data = await contactServices.addContact({
     ...req.body,
+    photoUrl,
     userId,
-    photo: photoUrl,
   });
 
   res.status(201).json({
@@ -95,14 +101,20 @@ export const patchContactController = async (req, res) => {
 
   let photoUrl;
 
-  // Якщо є файл, зберігаємо його та отримуємо URL
   if (photo) {
-    photoUrl = await saveFileToUploadDir(photo);
+    if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
   }
 
   const result = await contactServices.updateContact(
     { _id, userId },
-    { ...req.body, photo: photoUrl },
+    {
+      ...req.body,
+      photo: photoUrl,
+    },
   );
 
   if (!result) {
@@ -112,7 +124,7 @@ export const patchContactController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Successesfully upsert contact',
-    data: result.data,
+    data: result,
   });
 };
 
