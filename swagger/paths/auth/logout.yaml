@@ -1,0 +1,14 @@
+tags:
+  - Auth
+summary: Log Out User
+operationId: logout
+description: 'Log out by invalidating tokens and deleting the session'
+security:
+  - bearerAuth: []
+responses:
+  '204':
+    description: 'User successfully logged out. No content in the response body'
+  '400':
+    description: 'Bad Request'
+  '500':
+    $ref: '../../components/responses/500.yaml'

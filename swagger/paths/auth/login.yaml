@@ -1,0 +1,66 @@
+tags:
+  - Auth
+summary: Log In User
+operationId: logIn
+description: 'Log in a user with the provided credentials'
+security: []
+requestBody:
+  description: 'Data required to log in a user'
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - email
+          - password
+        properties:
+          email:
+            type: string
+            description: 'User email address'
+            format: email
+            example: 'example@mail.com'
+          password:
+            type: string
+            description: 'Account password'
+            example: 'password123'
+responses:
+  '200':
+    description: 'Successful login. Access token returned'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              description: 'HTTP status code'
+              example: 200
+            message:
+              type: string
+              description: 'Success message'
+              example: 'Successfully logged in the user!'
+            data:
+              type: object
+              required:
+                - accessToken
+                - refreshToken
+              properties:
+                accessToken:
+                  type: string
+                  description: 'JWT access token for authentication'
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+                refreshToken:
+                  type: string
+                  description: 'Token to refresh access when expired'
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  '404':
+    $ref: '../../components/responses/404.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

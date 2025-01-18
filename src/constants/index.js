@@ -19,5 +19,7 @@ export const CLOUDINARY = {
   API_SECRET: 'API_SECRET',
 };
 
+export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');
+
 export const APP_DOMAIN = 'APP_DOMAIN';
 export const JWT_SECRET = 'JWT_SECRET';

@@ -1,0 +1,36 @@
+tags:
+  - Contacts
+summary: Delete Contact
+operationId: deleteContact
+description: 'Deletes a contact from the system using the provided contact ID.'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    description: 'The unique identifier of the contact to be deleted.'
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598384'
+responses:
+  '204':
+    description: 'The contact was successfully deleted. No content is returned in the response body.'
+  '400':
+    description: 'Bad Request. The provided contact ID is invalid.'
+    content:
+      application/json:
+        schema:
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: 'Invalid contact ID format.'
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/404.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml

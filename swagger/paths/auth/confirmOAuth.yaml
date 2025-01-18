@@ -1,0 +1,45 @@
+tags:
+  - Auth
+summary: Confirm Google OAuth
+operationId: confirmOAuth
+description: 'Allows confirming the Google OAuth code and logging in the user'
+security: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        required:
+          - code
+        properties:
+          code:
+            type: string
+            example: '4/0AanRRruk9D1yklKZqsudSwp4pYCol7gYRk4EVnC4HEjh9sssYUNNHQ'
+responses:
+  '200':
+    description: 'Successfully logged in via Google OAuth!'
+    content:
+      application/json:
+        schema:
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully logged in via Google OAuth!'
+            data:
+              type: object
+              required:
+                - accessToken
+              properties:
+                accessToken:
+                  type: string
+                  example: '$accessToken'
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
