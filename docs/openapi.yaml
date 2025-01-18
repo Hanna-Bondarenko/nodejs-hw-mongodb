@@ -12,7 +12,7 @@ tags:
   - name: Contact
     description: 'Endpoints for managing contacts'
 servers:
-  - url: 'http://your-deployed-site-url.com' #посилання на задеплоєний сайт
+  - url: 'https://contacts-app-shmb.onrender.com' #посилання на задеплоєний сайт
 paths:
   /contacts:
     get:
