@@ -28,7 +28,7 @@
     "/contacts": {
       "get": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "summary": "Get list of contact",
         "operationId": "getContact",
@@ -335,7 +335,7 @@
       },
       "patch": {
         "tags": [
-          "Contact"
+          "Contacts"
         ],
         "summary": "Update contact",
         "operationId": "updateContact",
