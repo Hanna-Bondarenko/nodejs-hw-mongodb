@@ -9,7 +9,7 @@ info:
 tags:
   - name: Auth
     description: 'Endpoints for user authentication'
-  - name: Contact
+  - name: Contacts
     description: 'Endpoints for managing contacts'
 servers:
   - url: 'https://contacts-app-shmb.onrender.com' #посилання на задеплоєний сайт
